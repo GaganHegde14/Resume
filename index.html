@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Gagan Hegde</title>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.15.349/pdf.min.js"></script>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      background-color: #f4f4f9;
+      color: #333;
+    }
+
+    h1 {
+      margin-top: 20px;
+      font-size: 2rem;
+      color: #444;
+    }
+
+    #pdfContainer {
+      margin: 20px 0;
+      padding: 10px;
+      background: white;
+      border: 1px solid #ddd;
+      box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+      border-radius: 8px;
+      max-width: 90%;
+      overflow: auto;
+    }
+
+    canvas {
+      display: block;
+      margin: 0 auto;
+    }
+
+    .button-container {
+      margin: 20px 0;
+    }
+
+    .button {
+      text-decoration: none;
+      padding: 10px 20px;
+      margin: 5px;
+      color: white;
+      background: #007bff;
+      border: none;
+      border-radius: 5px;
+      font-size: 1rem;
+      cursor: pointer;
+      transition: background 0.3s ease;
+    }
+
+    .button:hover {
+      background: #0056b3;
+    }
+
+    .button-secondary {
+      background: #28a745;
+    }
+
+    .button-secondary:hover {
+      background: #1e7e34;
+    }
+
+    footer {
+      margin-top: 20px;
+      font-size: 0.9rem;
+      color: #666;
+    }
+  </style>
+</head>
+<body>
+  <div id="pdfContainer">
+    <canvas id="pdfCanvas"></canvas>
+  </div>
+  <div class="button-container">
+    <a href="GAGAN.pdf" download="GAGAN.pdf" class="button">Download</a>
+    <a href="GAGAN.pdf" target="_blank" class="button button-secondary">View in New Tab</a>
+  </div>
+  <footer>
+    &copy; Gagan Hegde
+  </footer>
+  <script>
+    const url = 'GAGAN.pdf';
+const pdfjsLib = window['pdfjs-dist/build/pdf'];
+pdfjsLib.GlobalWorkerOptions.workerSrc =
+  'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.15.349/pdf.worker.min.js';
+
+const loadingTask = pdfjsLib.getDocument(url);
+loadingTask.promise.then(function (pdf) {
+  pdf.getPage(1).then(function (page) {
+    const scale = 2.0; // Increased scale for higher quality
+    const viewport = page.getViewport({ scale: scale });
+
+    const canvas = document.getElementById('pdfCanvas');
+    const context = canvas.getContext('2d');
+    canvas.width = viewport.width;
+    canvas.height = viewport.height;
+
+    // Render the page at a higher resolution
+    const renderContext = {
+      canvasContext: context,
+      viewport: viewport,
+    };
+    page.render(renderContext);
+  });
+});
+
+  </script>
+</body>
+</html>
